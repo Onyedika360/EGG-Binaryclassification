@@ -1,0 +1,24 @@
+from tensorflow.keras import regularizers
+import tensorflow as tf
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential 
+
+tf.random.set_seed(40) # make model re-produceable using the same weights 
+model = Sequential([
+    tf.keras.Input(shape =(85)),
+    Dense(30, kernel_regularizer= regularizers.l2(1e-2), activation= 'relu', name ='layer1'),# added L2 regularizer for penalty against overfitting
+    Dense(10, kernel_regularizer= regularizers.l2(1e-2), activation= 'relu', name = 'layer2'),
+    Dense(1, activation= 'linear', name = 'layer3')
+], name = 'my_model'
+) 
+model.compile(
+    loss = tf.keras.losses.BinaryCrossentropy(from_logits=True),
+    optimizer = tf.keras.optimizers.Adam(0.01), 
+    metrics = [tf.keras.metrics.BinaryAccuracy()],
+)
+
+history = model.fit(
+    X_train, Y_train,
+    epochs = 55
+)
+  
