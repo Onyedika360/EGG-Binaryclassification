@@ -1,0 +1,8 @@
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, stratify =Y, random_state = 42) #stratify dataset to avoid skewed training dataset and test dataset
+scaler = StandardScaler()
+X_train=scaler.fit_transform(X_train) # Training set standardization
+scaler = StandardScaler()
+X_test=scaler.fit_transform(X_test) # Test set standaardization 
