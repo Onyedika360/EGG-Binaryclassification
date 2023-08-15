@@ -1,0 +1,18 @@
+def Data_processing(nsub, datalong, nodes):
+    X = np.zeros((nsub * nodes, datalong))
+    Y = np.zeros(nsub * nodes)
+    for i in range(nsub):
+        dataset =  sp.loadmat(f"/srv/shared/eeg/data/ds004504/derivatives/sub-{i+1:03}/eeg/sub-{i+1:03}_task-eyesclosed_eeg.set")
+        label = dataset['group'][0]
+        for k in range(nodes):
+            Y[k + i*nodes] =label=='A'
+            f, S = sig.welch(dataset['data'][k], fs=500, nperseg=1024)
+            X[k + i*nodes] = np.log(S[5:5+datalong])
+         
+    return X, Y
+subjects = 88
+ft = 85
+nodes = 19
+X, Y = Data_processing(subjects, ft, nodes)      
+
+      
